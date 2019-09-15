@@ -1,0 +1,16 @@
+.grid {
+    display: grid;
+    /*grid-gap: var(--s-5);*/
+    grid-template-columns: 100%;
+}
+
+.grid.aboveMin {
+    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+}
+
+/*noinspection CssInvalidFunction*/
+@supports (width: min(20rem, 100%)) {
+    .grid {
+        grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr));
+    }
+}

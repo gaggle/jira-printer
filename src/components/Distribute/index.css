@@ -1,0 +1,13 @@
+.distribute > * {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.distribute-element.center {
+    align-self: center;
+}
+
+.distribute-element.grow {
+    flex-grow: 1;
+}
+
