@@ -1,0 +1,8 @@
+.Card {
+  display: block;
+  padding: var(--s-5) var(--s-3);
+  border-width: var(--border-thin);
+  /* ↓ For high contrast mode */
+  /*outline: var(--border-thin) solid var(--color-mid);*/
+  /*outline-offset: calc(var(--border-thin) * -1);*/
+}

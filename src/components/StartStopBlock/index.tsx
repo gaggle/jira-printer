@@ -1,9 +1,9 @@
+import classnames from 'classnames';
 import React, { CSSProperties } from 'react';
+import style from './index.module.css';
 
-import './index.css';
-
-export function StartStopBlock(props: { style: CSSProperties }) {
-  return <table className="start-stop" style={props.style}>
+export function StartStopBlock(props: { style: CSSProperties, className?: string }) {
+  return <table className={classnames(style['start-stop'], props.className)} style={props.style}>
     <tbody>
     <tr>
       <td>Start</td>

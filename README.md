@@ -1,67 +1,72 @@
-# Razzle TypeScript Example
+# Jira Printer
 
 ## How to use
-Download the example [or clone the whole project](https://github.com/jaredpalmer/razzle.git):
-
+To install dependencies:
 ```bash
-curl https://codeload.github.com/jaredpalmer/razzle/tar.gz/master | tar -xz --strip=2 razzle-master/examples/with-typescript
-cd with-typescript
+npm ci
 ```
 
-Install it and run:
-
+To start an auto-reloading development server use the `npm start` target,
+however a TOKEN_SECRET environment variable is required to successfully start.
+E.g.:
 ```bash
-yarn install
-yarn start
+TOKEN_SECRET=foobar npm start
 ```
+Then visit http://localhost:3000:
 
-## Idea behind the example
-This is an of how to use Razzle with [TypeScript](https://github.com/Microsoft/TypeScript). 
-In `razzle.config.js`, we locate the part of the webpack configuration 
-that is running `babel-loader` and swap it out for `ts-loader`. 
-Additionally, we make sure Razzle knows how to resolve `.ts` and `.tsx` files.
+(but please use a strong secret, 
+its used to encrypt client/server data and if it's too weak it would be possible to spoof the server)
 
-Lastly, we also need to modify our Jest configuration to handle typescript files. 
-Thus we add `ts-jest` and `@types/jest` to our dev dependencies. Then we augment Razzle's default jest setup by adding a field in our `package.json`.
+During development it is tiring to continuously have to log in,
+so these environment variables may be used to pre-fill the login form:
+* `JIRA_URL`
+* `JIRA_TOKEN`
+* `JIRA_USER`
 
-```json
-// package.json
 
-{
-  ...
-  "jest": {
-    "transform": {
-      "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js",
-      "\\.css$": "<rootDir>/node_modules/razzle/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/node_modules/razzle/config/jest/fileTransform.js"
-    },
-    "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.(ts|js)?(x)",
-      "<rootDir>/src/**/?(*.)(spec|test).(ts|js)?(x)"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "json"
-    ],
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx,ts,tsx}"
-    ]
-  }
-}
-```
+## Acceptance criteria
+To manually verify against regressions these requirements must be adhered to: 
 
-The `tslint.json` and `tsconfig.json` are taken from Microsoft's official 
-[TypeScript-React-Starter](https://github.com/Microsoft/TypeScript-React-Starter).
+**I CAN LOG IN**
+  * GIVEN I have no cookies and go to Home page
+  * THEN I'm asked for Jira credentials
 
-Note: You do not techincally _need_ to fully replace `babel-loader` with 
-`ts-loader` to use TypeScript. Both TS and Babel transpile ES6 code,
-so when you run both webpack loaders you are making Razzle do twice the work. From our testing,
-this can make HMR extremely slow on larger apps. Thus, this example overwrites
-`babel-loader` with `ts-loader`. However, if you are incrementally moving to typescript you may want to run both loaders side by side. If you are running both, add this to your `jest.transform` setup in `package.json`:
 
-```
-"^.+\\.(js|jsx)$": "<rootDir>/node_modules/razzle/config/jest/babelTransform.js",
-```
-This will continue to transform .js files through babel.
+  * GIVEN I'm on Home Page and logged in
+  * THEN I have a cookie with expiration date in 2 hours
+
+    
+  * GIVEN I'm on Home Page and logged in an hour ago
+  * WHEN I reload the page
+  * THEN cookie expiration date is in 2 hours
+  
+  
+  * GIVEN I'm on Home page and logged in
+  * WHEN I clear my cookies and reload the page
+  * THEN I'm asked for Jira credentials
+
+**I CAN SEARCH FOR JIRA ISSUES**
+  * GIVEN I search for "SEC-123, SEC-234, SEC-345" from Home page
+  * THEN I'm taken to Issues page
+  * AND I see issues "SEC-123 SEC-234 SEC-345"
+
+**I CAN PRINT JIRA ISSUES**
+  * GIVEN I see issues "SEC-123,SEC-234"
+  * WHEN I print
+  * THEN I get printed version of SEC-123 SEC-234
+
+
+## Todo/Ideas
+* FIX: index.js:1 Warning: Expected server HTML to contain a matching <header> in <main>.
+* TRY: https://usehooks.com/useSpring/
+* TRY: Formic, for the form
+* Fleshed out on-boarding/login flow
+    * Welcome-screen, handle "new user doesn't know what any of this is"
+    * Ability to disconnect
+* "Print preview"-oriented layout
+    * Preview issues printed to A4
+    * Handle multiple pages gracefully
+* Generalize the Jira schema logic
+    * Make a demo-deploy somewhere for easy demoing?
+    * Update README.md with links to deployed/demo version
+    * Write blog introducing the tool

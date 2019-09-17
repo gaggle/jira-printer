@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import './index.css';
+import style from './index.module.css';
 
 export function Grid(props: { children: React.ReactNode }) {
   let gridNode: HTMLDivElement | null;
@@ -12,11 +12,11 @@ export function Grid(props: { children: React.ReactNode }) {
       }
       observeGrid(gridNode);
     },
-    []
+    [],
   );
 
   // return <button ref={el => (button = el)} />
-  return <div className="grid" data-min="20rem" ref={(el) => (gridNode = el)}>
+  return <div className={style.grid} data-min="20rem" ref={(el) => (gridNode = el)}>
     {props.children}
   </div>;
 }
@@ -44,7 +44,6 @@ function observeGrid(gridNode: Element): void {
         const isWide = cr.width > minToPixels;
         // toggle the class conditionally
         gridNode.classList.toggle('aboveMin', isWide);
-        console.log('observeGrid', isWide);
       }
     });
 

@@ -1,7 +1,7 @@
+import classnames from 'classnames';
 import React from 'react';
+import style from './index.module.css';
 
-import './index.css';
-
-export function Card(props: { children: React.ReactNode }): JSX.Element {
-  return <div className="Card">{props.children}</div>;
+export function Card(props: { children?: React.ReactNode; className?: string; }): JSX.Element {
+  return <div className={classnames(style.Card, props.className)}>{props.children}</div>;
 }

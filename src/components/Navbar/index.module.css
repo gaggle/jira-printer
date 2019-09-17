@@ -1,0 +1,24 @@
+.navbar {
+  background-color: var(--color-lightish);
+  text-align: center;
+}
+
+.navbar a {
+  text-decoration: none;
+}
+
+.navbar a:hover:not(.active) {
+  background-color: var(--color-mid);
+}
+
+.active {
+  background-color: var(--color-darkish);
+  color: var(--color-lightish)
+}
+
+
+@media print {
+  .navbar {
+    display: none;
+  }
+}

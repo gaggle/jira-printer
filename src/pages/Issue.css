@@ -1,0 +1,19 @@
+.card h1 {
+  font-size: calc(var(--s2) * 0.8);
+}
+
+.card h2 {
+  font-size: calc(var(--s1) * 0.8);
+}
+
+.card h3 {
+  font-size: var(--s0)
+}
+
+.card h4 {
+  font-size: var(--s-1)
+}
+
+.card .key {
+  font-size: var(--s2);
+}

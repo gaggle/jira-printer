@@ -1,8 +1,8 @@
+import classnames from 'classnames';
 import React from 'react';
 
-import './index.css';
+import style from './index.module.css';
 
-export function EpicLink(props: { children: React.ReactNode }) {
-
-  return <div className="epic-link">{props.children}</div>;
+export function EpicLink(props: { children: React.ReactNode; className?: string; }) {
+  return <p className={classnames(style['epic-link'], props.className)}>{props.children}</p>;
 }

@@ -1,0 +1,12 @@
+.search-field {
+  border-width: var(--border-thin);
+  height: var(--s2);
+}
+
+.search-field input {
+  box-shadow: inset 0.2rem 0.2rem 0 #ddd;
+}
+
+.search-field input:focus {
+  outline-offset: 0;
+}

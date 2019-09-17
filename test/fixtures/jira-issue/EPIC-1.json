@@ -1,0 +1,11 @@
+{
+  "description": "Epic description with great attention to detail",
+  "epicName": "Epic short name",
+  "issuetype": {
+    "name": "Epic",
+    "iconUrl": "https://foo.atlassian.net/secure/viewavatar?size=medium&avatarId=11027&avatarType=issuetype"
+  },
+  "key": "EPIC-1",
+  "summary": "Summary of EPIC-1",
+  "webUrl": "https://foo.atlassian.net/browse/EPIC-1"
+}

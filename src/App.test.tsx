@@ -10,9 +10,9 @@ describe('<App />', () => {
     const div = document.createElement('div');
     render(
       <MemoryRouter>
-        <App />
+        <App/>
       </MemoryRouter>,
-      div
+      div,
     );
   });
 });

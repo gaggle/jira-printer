@@ -1,13 +1,4 @@
-logs
-*.log
-npm-debug.log*
-.DS_Store
-
-coverage
-node_modules
 build
+node_modules
 public/static
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+src/**/*.css.d.ts

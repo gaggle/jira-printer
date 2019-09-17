@@ -1,0 +1,11 @@
+{
+  "description": "First some text\n\nh2. Headline\n\n* *Highlight*\n\nsed dignissimos qui minima beatae adipisci aut perspiciatis.\n \nsed et quia ducimus.\n",
+  "epicKey": "EPIC-1",
+  "issuetype": {
+    "name": "Story",
+    "iconUrl": "https://foo.atlassian.net/secure/viewavatar?size=medium&avatarId=11035&avatarType=issuetype"
+  },
+  "key": "STORY-1",
+  "summary": "Summary of STORY-1",
+  "webUrl": "https://foo.atlassian.net/browse/STORY-1"
+}

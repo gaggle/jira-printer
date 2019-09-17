@@ -1,0 +1,56 @@
+.checkmark {
+  box-shadow: inset 0.2rem 0.2rem 0 #ddd;
+}
+
+.checkmark {
+  width: 100%;
+  font-size: inherit;
+  border-width: var(--border-thin);
+  padding: var(--s-1);
+}
+
+.checkmark-group {
+  margin-left: var(--s-2);
+  position: relative;
+  cursor: pointer;
+}
+
+.checkmark-group input {
+  position: absolute;
+  opacity: 0;
+  height: 0;
+  width: 0;
+}
+
+.checkmark-group .checkmark {
+  position: absolute;
+  top: calc(var(--s0) / -5);
+  left: 0;
+  height: var(--s0);
+  width: var(--s0);
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkmark-group input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.checkmark-group .checkmark:after {
+  background-color: transparent;
+  left: calc(var(--s0) / 2);
+  top: calc(var(--s0) / 10);
+  width: var(--s-2);
+  height: var(--s0);
+  border: solid black;
+  border-width: 0 var(--border-thinish) var(--border-thinish) 0;
+  transform: rotate(45deg);
+}
+
+.field label + * {
+  margin-top: var(--s-3);
+}
