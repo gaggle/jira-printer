@@ -13,7 +13,7 @@ export function init(url: string, user: string, token: string, debug: boolean = 
   client = new JiraClientClass(url, { user, token });
 }
 
-export async function get(issueKeys: string[]): Promise<Issue[]> {
+export async function getIssues(issueKeys: string[]): Promise<Issue[]> {
   if (!client) {
     throw new Error('Must init first');
   }

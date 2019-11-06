@@ -85,10 +85,10 @@ export function apiRouter(tokenFactory: TokenFactory, conf: Conf): Router {
     const query = req.query.q.split(',');
     let results: GetIssues.Issue[];
     try {
-      results = await jira.get(query);
+      results = await jira.getIssues(query);
     } catch (err) {
-      console.error(`Error /get-issues using '${query}':`, err.message);
-      return res.status(500).send(err);
+      console.error(`Error /get-issues using query '${query}', error message snippet:`, err.message.slice(0, 256));
+      return res.status(err.statusCode || 500).send(err);
     }
 
     results.map((iss) => {
