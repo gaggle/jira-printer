@@ -1,9 +1,9 @@
 import { MockedParsedJiraBasicAuth, ParsedJiraBasicAuth } from 'simple-jira-client';
 import { ParsedEpic, ParsedIssue, ParsedStory } from 'simple-jira-client/build/types/ParsedIssue';
-import { SimpleJiraClient } from 'simple-jira-client/src/types/index';
+import { Pingable, SimpleJiraClient } from 'simple-jira-client/src/types/index';
 import { Issue } from '../types/api-get-issues';
 
-let client: SimpleJiraClient<ParsedIssue, void> | null;
+let client: SimpleJiraClient<ParsedIssue, void> & Pingable | null;
 
 export function init(url: string, user: string, token: string, debug: boolean = false) {
   if (debug) {
@@ -34,4 +34,11 @@ export async function getIssues(issueKeys: string[]): Promise<Issue[]> {
     }
   }
   return result;
+}
+
+export async function ping(): Promise<boolean> {
+  if (!client) {
+    throw new Error('Must init first');
+  }
+  return client.ping();
 }
