@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Redirect } from 'react-router-dom';
+
 import { Card } from '../components/Card/index';
 import { ContentBox } from '../components/ContentBox/index';
 import { Distribute, DistributeEl } from '../components/Distribute/index';
@@ -11,6 +13,7 @@ import { Markdown } from '../components/Markdown/index';
 import { Stack } from '../components/Stack/index';
 import { StartStopBlock } from '../components/StartStopBlock/index';
 import { useJsonFetch } from '../hooks/use-json-fetch';
+import { Routing } from '../lib/routing';
 import { EpicIssue, Issue, ResponseOk, StoryIssue } from '../types/api-get-issues';
 import { PageProps } from '../types/pages';
 import './Issue.css';
@@ -75,8 +78,15 @@ export function Issue(props: PageProps): JSX.Element {
         })}
       </Grid>;
     case 'error':
-      return <div>
-        <pre>{JSON.stringify({ fetched }, null, 2)}</pre>
-      </div>;
+      switch (fetched.status) {
+        case 401:
+          return <Redirect to={Routing.login.path}/>;
+        case 404:
+          return <div>404 Issue not found or no permission to see it</div>
+        default:
+          return <div>
+            <pre>{JSON.stringify({ fetched }, null, 2)}</pre>
+          </div>;
+      }
   }
 }
