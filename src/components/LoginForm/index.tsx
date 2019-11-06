@@ -39,6 +39,9 @@ export function LoginForm(props: FormProps) {
 
   function handleClick(event: React.ChangeEvent<HTMLFormElement>): void {
     event.preventDefault();
+    if (!formIsValid) {
+      return;
+    }
     props.onSubmit(formState);
   }
 
