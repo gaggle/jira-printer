@@ -7,7 +7,6 @@ import { PostJson } from '../lib/fetching';
 import { getMetaData } from '../lib/meta';
 import { Routing } from '../lib/routing';
 import { isClient, parseQueryString } from '../lib/utils';
-import * as ApiLoginTypes from '../types/api-login';
 import { PageProps } from '../types/pages';
 
 export function Login(props: PageProps) {
