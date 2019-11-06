@@ -70,3 +70,4 @@ To manually verify against regressions these requirements must be adhered to:
     * Make a demo-deploy somewhere for easy demoing?
     * Update README.md with links to deployed/demo version
     * Write blog introducing the tool
+* Don't lock client when loading issues, display all scaffolds and fill in their data as it arrives
