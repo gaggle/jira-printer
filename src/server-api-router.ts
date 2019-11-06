@@ -19,7 +19,7 @@ export function apiRouter(tokenFactory: TokenFactory, conf: Conf): Router {
 
   const router = Router();
 
-  router.post('/login', (req: Request & Login.Request, res: Response) => {
+  router.post('/login', async (req: Request & Login.Request, res: Response) => {
     const errors: string[] = [];
 
     const token = conf.lockedCredentials.token || req.body.token;
@@ -39,6 +39,14 @@ export function apiRouter(tokenFactory: TokenFactory, conf: Conf): Router {
     if (errors.length) {
       const errorBody: Login.ResponseError = { errors };
       res.status(400).send(errorBody);
+      return;
+    }
+
+    jira.init(url, user, token, conf.useMock);
+
+    if (!await jira.ping()) {
+      const errorBody: Login.ResponseError = { errors: ['Unauthorized'] };
+      res.status(401).send(errorBody);
       return;
     }
 
