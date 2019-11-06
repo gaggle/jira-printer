@@ -70,9 +70,9 @@ function htmlEndpoint(req: express.Request, res: express.Response) {
       <meta charSet='utf-8' />
       <meta
        name="loginform"
-       data-jira-token="${conf.lockedCredentials.token}"
-       data-jira-url="${conf.lockedCredentials.url}"
-       data-jira-user="${conf.lockedCredentials.user}"
+       ${conf.lockedCredentials.token ? `data-jira-token=${conf.lockedCredentials.token}` : ''}
+       ${conf.lockedCredentials.url ? `data-jira-url=${conf.lockedCredentials.url}` : ''}
+       ${conf.lockedCredentials.user ? `data-jira-user=${conf.lockedCredentials.user}` : ''}
       >
       <title>Jira Printer</title>
       <meta name="viewport" content="width=device-width, initial-scale=1">
