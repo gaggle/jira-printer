@@ -82,7 +82,7 @@ export function Issue(props: PageProps): JSX.Element {
         case 401:
           return <Redirect to={Routing.login.path}/>;
         case 404:
-          return <div>404 Issue not found or no permission to see it</div>
+          return <div>404 Issue not found or no permission to see it</div>;
         default:
           return <div>
             <pre>{JSON.stringify({ fetched }, null, 2)}</pre>
