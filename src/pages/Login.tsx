@@ -26,15 +26,15 @@ export function Login(props: PageProps) {
     }
   }
 
-  let to = viaRouting ? viaRouting.path : Routing.home.path;
-  if (search) {
+  let to = viaRouting ? viaRouting.path : Routing.issues.path;
+  if (search.q) {
     to += `?q=${search.q}`;
   }
   return authed
     ? <Redirect to={to}/>
     : <>
       <LoginForm
-        action={(viaRouting && viaRouting !== Routing.home) ? viaRouting.name : undefined}
+        action={(viaRouting && viaRouting !== Routing.issues) ? viaRouting.name : undefined}
         errors={errors}
         onSubmit={async (formState: FormState) => {
           setErrors(undefined);

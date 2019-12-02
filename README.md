@@ -57,6 +57,12 @@ To manually verify against regressions these requirements must be adhered to:
 
 
 ## Todo/Ideas
+* Back to working app
+    * Delete use-task.ts?
+* TRY: Proper error-handler, rendering a 500 page
+* FIX: Better Markdownification
+    * @ mention someone
+    * Colors
 * FIX: index.js:1 Warning: Expected server HTML to contain a matching <header> in <main>.
 * TRY: https://usehooks.com/useSpring/
 * TRY: Formic, for the form

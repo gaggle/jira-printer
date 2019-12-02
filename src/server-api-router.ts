@@ -95,7 +95,10 @@ export function apiRouter(tokenFactory: TokenFactory, conf: Conf): Router {
     try {
       results = await jira.getIssues(query);
     } catch (err) {
-      console.error(`Error /get-issues using query '${query}', error message snippet:`, err.message.slice(0, 256));
+      console.error(
+        `Error /get-issues using query '${query}':`,
+        err.message ? err.message.slice(0, 256) : err,
+      );
       return res.status(err.statusCode || 500).send(err);
     }
 

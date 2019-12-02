@@ -3,9 +3,9 @@ const routingByPath: { [key: string]: Routing } = {};
 const routingRegistry: Routing[] = [];
 
 export class Routing {
-  public static readonly home: Routing = new Routing('home', '/', 'Home');
   public static readonly issues: Routing = new Routing('issues', '/issues', 'Issues');
   public static readonly login: Routing = new Routing('login', '/login', 'Login');
+  public static readonly root: Routing = new Routing('root', '/', 'Landing');
 
   public readonly label: string;
   public readonly name: string;

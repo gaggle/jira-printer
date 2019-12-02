@@ -135,6 +135,7 @@
         "**/lib/**": [
           "src/components/**",
           "src/hocs/**",
+          "src/hooks/**",
           "src/pages/**",
           "src/*"
         ],

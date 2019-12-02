@@ -29,7 +29,7 @@ export function RequiresAuth(WrappedComponent: ElementType) {
       dispatch({ type: 'disconnected' });
       const routing = Routing.fromPath(props.location.pathname);
       const search = props.location.search.slice(1, props.location.search.length);
-      const query = routing !== Routing.home ? `?via=${routing.label}&${search}` : '';
+      const query = routing !== Routing.issues ? `?via=${routing.label}&${search}` : '';
       return <Redirect to={`${Routing.login.path}${query}`}/>;
     }
   };
