@@ -12,7 +12,7 @@ export function filter<T, K extends keyof T>(object: T, ...keys: K[]): Omit<T, K
   return result;
 }
 
-export function getNowInEpocSeconds(): number {
+export function getNowInEpochSeconds(): number {
   return Math.floor(new Date().getTime() / 1000);
 }
 
