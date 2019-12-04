@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { DecodedToken, Token, TokenData } from '../types/token';
-import { filter, getNowInEpocSeconds } from './utils';
+import { filter, getNowInEpochSeconds } from './utils';
 
 export class TokenFactory {
   private readonly secret: string;
@@ -20,7 +20,7 @@ export class TokenFactory {
   }
 
   public newToken(data: TokenData): Token {
-    return { data, i1st: getNowInEpocSeconds() };
+    return { data, i1st: getNowInEpochSeconds() };
   }
 
   public signToken(token: Token): string {

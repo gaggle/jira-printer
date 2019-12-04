@@ -1,23 +1,23 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import './App.css';
 import { Paged } from './hocs/paged';
 import { RequiresAuth } from './hocs/requires-auth';
 import { StoreProvider } from './hooks/use-store';
 import { Routing } from './lib/routing';
-import { Home } from './pages/Home';
-import { Issue } from './pages/Issue';
+import { Issues } from './pages/Issues';
+import { Landing } from './pages/Landing';
 import { Login } from './pages/Login';
+import './styles.css';
 import { PageProps } from './types/pages';
 
 export default function App() {
   return <main>
     <StoreProvider>
       <Switch>
-        <Route exact={true} path={Routing.home.path} component={RequiresAuth(Paged(Home))}/>
-        <Route exact={true} path={Routing.issues.path} component={RequiresAuth(Paged(Issue))}/>
-        <Route exact={true} path={Routing.login.path} component={Paged(Login)}/>
+        <Route exact={true} path={Routing.root.path} component={Landing}/>
+        <Route exact={true} path={Routing.issues.path} component={RequiresAuth(Paged(Issues))}/>
+        <Route exact={true} path={Routing.login.path} component={Login}/>
         <Route component={NotFound404}/>
       </Switch>
     </StoreProvider>

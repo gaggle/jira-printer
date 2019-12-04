@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Redirect } from 'react-router-dom';
 
@@ -10,6 +10,7 @@ import { Grid } from '../components/Grid';
 import { IssueNumber } from '../components/IssueNumber/index';
 import { IssueType } from '../components/IssueType/index';
 import { Markdown } from '../components/Markdown/index';
+import { SearchField } from '../components/SearchField/index';
 import { Stack } from '../components/Stack/index';
 import { StartStopBlock } from '../components/StartStopBlock/index';
 import { useJsonFetch } from '../hooks/use-json-fetch';
@@ -59,8 +60,11 @@ function StoryCard(props: { item: StoryIssue }) {
   </Card>;
 }
 
-export function Issue(props: PageProps): JSX.Element {
+export function Issues(props: PageProps): JSX.Element {
   const q = new URLSearchParams(props.location.search).get('q');
+  if (!q) {
+    return <WithSearchField/>;
+  }
   const fetched = useJsonFetch<ResponseOk>(`/api/get-issues?q=${q}`);
 
   switch (fetched.mode) {
@@ -89,4 +93,21 @@ export function Issue(props: PageProps): JSX.Element {
           </div>;
       }
   }
+}
+
+function WithSearchField() {
+  const [searched, setSearched] = useState<string[]>([]);
+
+  function onSearch(value: string) {
+    const values = value.split(' ').map((e) => e.trim()).filter((e) => !!e);
+    setSearched(values);
+  }
+
+  if (searched.length) {
+    return <Redirect to={`${Routing.issues.path}?q=${searched.join(',')}`}/>;
+  }
+
+  return <>
+    <SearchField onSearch={onSearch}/>
+  </>;
 }

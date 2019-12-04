@@ -46,8 +46,7 @@ export function LoginForm(props: FormProps) {
   }
 
   const formIsValid = !!formState.token && !!formState.url && !!formState.user;
-
-  const actionStr = props.action ? `Connect and go to ${props.action}` : 'Connect';
+  const actionStr = props.action ? `Connect and ${props.action}` : 'Connect';
 
   return <form
     className={style['login-form']}

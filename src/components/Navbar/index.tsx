@@ -13,8 +13,7 @@ export function Navbar(props: NavbarProps) {
   const connection = props.connection ? <div>Connection: ✅</div> : <div>Connection: ❌</div>;
   return <nav className={style.navbar} role="navigation" aria-label="main navigation">
     <Switcher>
-      <NavLink exact={true} to={Routing.home.path} activeClassName={style.active}>Home</NavLink>
-      {/*<NavLink exact={true} to={Routing.issues.path} activeClassName={style.active}>Issues</NavLink>*/}
+      <NavLink exact={true} to={Routing.issues.path} activeClassName={style.active}>Issues</NavLink>
       {connection}
     </Switcher>
   </nav>;

@@ -7,7 +7,3 @@ export interface Request {
 }
 
 export type ResponseOk = 'ok';
-
-export interface ResponseError {
-  errors: string[];
-}

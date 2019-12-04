@@ -6,15 +6,14 @@ import { useStoreDispatch } from '../hooks/use-store';
 import { PostJson } from '../lib/fetching';
 import { getMetaData } from '../lib/meta';
 import { Routing } from '../lib/routing';
-import { isClient, parseQueryString } from '../lib/utils';
+import { isClient, parseViaQuery } from '../lib/utils';
 import { PageProps } from '../types/pages';
 
 export function Login(props: PageProps) {
   const [authed, setAuthed] = useState(false);
-  const [errors, setErrors] = useState<string[] | undefined>(undefined);
+  const search = new URLSearchParams(props.location.search);
+  const [error, setError] = useState<string | null>(search.get('error'));
   const dispatch = useStoreDispatch();
-  const search = parseQueryString(props.location.search);
-  const viaRouting = Routing.fromLabel(search.via);
 
   const lockedFormData: FormState = {};
   if (isClient()) {
@@ -26,18 +25,24 @@ export function Login(props: PageProps) {
     }
   }
 
-  let to = viaRouting ? viaRouting.path : Routing.home.path;
-  if (search) {
-    to += `?q=${search.q}`;
-  }
+  const viaParam = search.get('via');
+  const [path, query] = parseViaQuery(viaParam!);
+  const viaRouting = Routing.fromLabel(path!);
+  const to = viaRouting ? `${viaRouting.path}?${query}` : Routing.issues.path;
   return authed
     ? <Redirect to={to}/>
     : <>
       <LoginForm
-        action={(viaRouting && viaRouting !== Routing.home) ? viaRouting.name : undefined}
-        errors={errors}
+        action={
+          (viaRouting && viaRouting !== Routing.issues)
+            ? `go to ${viaRouting.name}`
+            : query
+            ? 'search'
+            : undefined
+        }
+        errors={error ? [error] : undefined}
         onSubmit={async (formState: FormState) => {
-          setErrors(undefined);
+          setError(null);
           const response = await PostJson('/api/login', formState);
           if (response.status === 200) {
             dispatch({ type: 'connected' });
@@ -45,8 +50,8 @@ export function Login(props: PageProps) {
           } else {
             console.debug(`Form submit failed (${response.status})`);
             dispatch({ type: 'disconnected' });
-            const content = await response.json();
-            setErrors(content.errors);
+            const content = await response.text();
+            setError(content);
           }
         }}
         lockedState={lockedFormData}

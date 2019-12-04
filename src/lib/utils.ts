@@ -12,7 +12,7 @@ export function filter<T, K extends keyof T>(object: T, ...keys: K[]): Omit<T, K
   return result;
 }
 
-export function getNowInEpocSeconds(): number {
+export function getNowInEpochSeconds(): number {
   return Math.floor(new Date().getTime() / 1000);
 }
 
@@ -20,19 +20,11 @@ export function isClient(): boolean {
   return typeof window === 'object';
 }
 
-export function parseQueryString(query: string): { [key: string]: string } {
-  if (!query) {
-    return {};
+export function parseViaQuery(viaQuery: string): [string | undefined, string | undefined] {
+  if (!viaQuery) {
+    return [undefined, undefined];
   }
-  const trimmedQuery = /^[?#]/.test(query) ? query.slice(1) : query;
-  return trimmedQuery
-    .split('&')
-    .reduce(
-      (params, param) => {
-        const [key, value] = param.split('=');
-        params[key] = value ? decodeURIComponent(value.replace(/\+/g, ' ')) : '';
-        return params;
-      },
-      {},
-    );
+  const trimmedQuery = /^[?#]/.test(viaQuery) ? viaQuery.slice(1) : viaQuery; // Ensure no initial question-mark
+  const [path, rest] = trimmedQuery.split('?', 2);
+  return [path, rest];
 }
