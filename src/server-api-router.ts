@@ -20,7 +20,7 @@ export function apiRouter(tokenFactory: TokenFactory, conf: Conf): Router {
 
   const router = Router();
 
-  router.post('/login', async (req: Request & Login.Request, res: Response) => {
+  router.post('/login', async (req: Request & Login.Request, res: Response, next) => {
     const errors: string[] = [];
 
     const token = conf.lockedCredentials.token || req.body.token;
@@ -38,25 +38,25 @@ export function apiRouter(tokenFactory: TokenFactory, conf: Conf): Router {
       errors.push('Missing user');
     }
     if (errors.length) {
-      throw new httpErrors.BadRequest(errors.join(', '));
+      return next(new httpErrors.BadRequest(errors.join(', ')));
     }
 
     jira.init(url, user, token, conf.useMock);
 
     if (!await jira.ping()) {
-      throw new httpErrors.Unauthorized();
+      return next(new httpErrors.Unauthorized('Could not ping server'));
     }
 
     addCookieHeader(res, tokenFactory.signToken(tokenFactory.newToken({ token, url, user })));
     const body: Login.ResponseOk = 'ok';
-    res.send(body);
+    return res.send(body);
   });
 
-  router.get('/verify', (req: Request & Verify.Request, res: Response) => {
+  router.get('/verify', (req: Request & Verify.Request, res: Response, next) => {
     const cookie = req.headers.cookie;
 
     function deny(reason: string): void {
-      throw new httpErrors.BadRequest(reason);
+      return next(new httpErrors.BadRequest(reason));
     }
 
     if (!cookie) {
@@ -72,11 +72,11 @@ export function apiRouter(tokenFactory: TokenFactory, conf: Conf): Router {
     }
   });
 
-  router.get('/get-issues', async (req: Request & GetIssues.Request, res: Response) => {
+  router.get('/get-issues', async (req: Request & GetIssues.Request, res: Response, next) => {
     const cookie = req.headers.cookie;
 
     function deny(reason: string): void {
-      throw new httpErrors.BadRequest(reason);
+      return next(new httpErrors.BadRequest(reason));
     }
 
     if (!cookie) {
@@ -90,9 +90,9 @@ export function apiRouter(tokenFactory: TokenFactory, conf: Conf): Router {
     try {
       results = await jira.getIssues(query);
     } catch (err) {
-      throw new httpErrors.InternalServerError(
+      return next(new httpErrors.InternalServerError(
         `Error /get-issues with query '${query}': ${err.message ? err.message.slice(0, 256) : err}`,
-      );
+      ));
     }
 
     results.map((iss) => {
@@ -108,8 +108,8 @@ export function apiRouter(tokenFactory: TokenFactory, conf: Conf): Router {
     return res.json(body);
   });
 
-  router.use('/', (_req: Request, _res: Response) => {
-    throw new httpErrors.NotFound();
+  router.use('/', (_req: Request, _res: Response, next) => {
+    return next(new httpErrors.NotFound());
   });
 
   router.use((err: Error, req: Request, res: Response, next: () => void) => {
