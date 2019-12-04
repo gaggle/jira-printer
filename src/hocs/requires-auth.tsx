@@ -25,15 +25,12 @@ export function RequiresAuth(WrappedComponent: ElementType) {
       if (fetched.data) {
         msg += `, reason: ${fetched.data}`;
       }
-      console.debug(msg);
       dispatch({ type: 'disconnected' });
       const routing = Routing.fromPath(props.location.pathname);
-      const search = props.location.search.slice(1, props.location.search.length);
-      const query = new URLSearchParams();
-      query.append('via', `${routing.label}&${search}`);
-      query.append('error', msg);
-
-      return <Redirect to={`${Routing.login.path}?${query}`}/>;
+      const params = new URLSearchParams();
+      params.append('via', `${routing.label}${props.location.search}`);
+      params.append('error', msg);
+      return <Redirect to={`${Routing.login.path}?${params}`}/>;
     }
   };
 }
