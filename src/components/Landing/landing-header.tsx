@@ -9,6 +9,9 @@ export function LandingHeader() {
 
   useEffect(() => {
     const button = document.getElementById('landing-intro');
+    if (!button) {
+      return;
+    }
     const handleScroll = () => setScrolledPast(window.pageYOffset >= button!.offsetTop);
     handleScroll();
     window.addEventListener('scroll', handleScroll);
