@@ -9,10 +9,11 @@ import './Landing.css';
 
 export function Landing(props: PageProps) {
   return (
-    <div className="leading-normal tracking-normal text-white gradient">
+    <div className="leading-normal tracking-normal text-white gradient flex flex-col h-screen">
       <LandingHeader/>
       <LandingIntro/>
       <LandingGuide/>
+      <div className="flex flex-grow bg-white"/>
       <LandingFooter/>
     </div>
   );

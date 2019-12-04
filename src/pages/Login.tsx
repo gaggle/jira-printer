@@ -11,9 +11,9 @@ import { PageProps } from '../types/pages';
 
 export function Login(props: PageProps) {
   const [authed, setAuthed] = useState(false);
-  const [errors, setErrors] = useState<string[] | undefined>(undefined);
-  const dispatch = useStoreDispatch();
   const search = parseQueryString(props.location.search);
+  const [error, setError] = useState<string | undefined>(search.error);
+  const dispatch = useStoreDispatch();
   const viaRouting = Routing.fromLabel(search.via);
 
   const lockedFormData: FormState = {};
@@ -35,9 +35,9 @@ export function Login(props: PageProps) {
     : <>
       <LoginForm
         action={(viaRouting && viaRouting !== Routing.issues) ? viaRouting.name : undefined}
-        errors={errors}
+        errors={error ? [error] : undefined}
         onSubmit={async (formState: FormState) => {
-          setErrors(undefined);
+          setError(undefined);
           const response = await PostJson('/api/login', formState);
           if (response.status === 200) {
             dispatch({ type: 'connected' });
@@ -45,8 +45,8 @@ export function Login(props: PageProps) {
           } else {
             console.debug(`Form submit failed (${response.status})`);
             dispatch({ type: 'disconnected' });
-            const content = await response.json();
-            setErrors(content.errors);
+            const content = await response.text();
+            setError(content);
           }
         }}
         lockedState={lockedFormData}

@@ -23,14 +23,17 @@ export function RequiresAuth(WrappedComponent: ElementType) {
     } else {
       let msg = 'Token verify failed';
       if (fetched.data) {
-        msg += `, reason: ${JSON.stringify(fetched.data.error)}`;
+        msg += `, reason: ${fetched.data}`;
       }
       console.debug(msg);
       dispatch({ type: 'disconnected' });
       const routing = Routing.fromPath(props.location.pathname);
       const search = props.location.search.slice(1, props.location.search.length);
-      const query = routing !== Routing.issues ? `?via=${routing.label}&${search}` : '';
-      return <Redirect to={`${Routing.login.path}${query}`}/>;
+      const query = new URLSearchParams();
+      query.append('via', `${routing.label}&${search}`);
+      query.append('error', msg);
+
+      return <Redirect to={`${Routing.login.path}?${query}`}/>;
     }
   };
 }

@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 
+import * as httpErrors from 'http-errors';
 import * as jira from './lib/jira';
 import { TokenFactory } from './lib/jwt-token';
 import { filter } from './lib/utils';
@@ -37,17 +38,13 @@ export function apiRouter(tokenFactory: TokenFactory, conf: Conf): Router {
       errors.push('Missing user');
     }
     if (errors.length) {
-      const errorBody: Login.ResponseError = { errors };
-      res.status(400).send(errorBody);
-      return;
+      throw new httpErrors.BadRequest(errors.join(', '));
     }
 
     jira.init(url, user, token, conf.useMock);
 
     if (!await jira.ping()) {
-      const errorBody: Login.ResponseError = { errors: ['Unauthorized'] };
-      res.status(401).send(errorBody);
-      return;
+      throw new httpErrors.Unauthorized();
     }
 
     addCookieHeader(res, tokenFactory.signToken(tokenFactory.newToken({ token, url, user })));
@@ -59,8 +56,7 @@ export function apiRouter(tokenFactory: TokenFactory, conf: Conf): Router {
     const cookie = req.headers.cookie;
 
     function deny(reason: string): void {
-      const body: Verify.ResponseError = { error: reason };
-      res.status(400).send(body);
+      throw new httpErrors.BadRequest(reason);
     }
 
     if (!cookie) {
@@ -80,8 +76,7 @@ export function apiRouter(tokenFactory: TokenFactory, conf: Conf): Router {
     const cookie = req.headers.cookie;
 
     function deny(reason: string): void {
-      const resp: Verify.ResponseError = { error: reason };
-      res.status(400).send(resp);
+      throw new httpErrors.BadRequest(reason);
     }
 
     if (!cookie) {
@@ -95,11 +90,9 @@ export function apiRouter(tokenFactory: TokenFactory, conf: Conf): Router {
     try {
       results = await jira.getIssues(query);
     } catch (err) {
-      console.error(
-        `Error /get-issues using query '${query}':`,
-        err.message ? err.message.slice(0, 256) : err,
+      throw new httpErrors.InternalServerError(
+        `Error /get-issues with query '${query}': ${err.message ? err.message.slice(0, 256) : err}`,
       );
-      return res.status(err.statusCode || 500).send(err);
     }
 
     results.map((iss) => {
@@ -115,8 +108,16 @@ export function apiRouter(tokenFactory: TokenFactory, conf: Conf): Router {
     return res.json(body);
   });
 
-  router.use('/', (req: Request, res: Response) => {
-    res.sendStatus(404);
+  router.use('/', (_req: Request, _res: Response) => {
+    throw new httpErrors.NotFound();
+  });
+
+  router.use((err: Error, req: Request, res: Response, next: () => void) => {
+    if (err instanceof httpErrors.HttpError) {
+      console.error(`[${err.statusCode} ${err.name}]: ${err.message}`);
+      return res.status(err.statusCode).send(err.message);
+    }
+    return next();
   });
 
   return router;
