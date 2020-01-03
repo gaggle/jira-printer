@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 
+import { Header } from '../components/Header/index';
 import { FormState, LoginForm } from '../components/LoginForm';
 import { useStoreDispatch } from '../hooks/use-store';
 import { PostJson } from '../lib/fetching';
@@ -32,6 +33,7 @@ export function Login(props: PageProps) {
   return authed
     ? <Redirect to={to}/>
     : <>
+      <Header/>
       <LoginForm
         action={
           (viaRouting && viaRouting !== Routing.issues)
