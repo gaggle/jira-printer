@@ -26,8 +26,8 @@ export function Login(props: PageProps) {
   }
 
   const viaParam = search.get('via');
-  const [path, query] = parseViaQuery(viaParam!);
-  const viaRouting = Routing.fromLabel(path!);
+  const [path, query] = parseViaQuery(viaParam);
+  const viaRouting = path ? Routing.fromLabel(path) : undefined;
   const to = viaRouting ? `${viaRouting.path}?${query}` : Routing.issues.path;
   return authed
     ? <Redirect to={to}/>
