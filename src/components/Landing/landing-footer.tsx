@@ -13,19 +13,6 @@ export function LandingFooter() {
               freepik.com
             </a>
           </li>
-          <li className="block md:inline-block mr-2">
-            <p>
-              Logo by
-              <a
-                className="font-bold"
-                href="https://www.flaticon.com/authors/smashicons"
-                title="Smashicons"
-              >
-                Smashicons
-              </a> {' '}
-              from <a className="font-bold" href="https://www.flaticon.com/" title="Flaticon">flaticon.com</a>
-            </p>
-          </li>
         </ul>
       </div>
     </footer>
@@ -34,7 +21,7 @@ export function LandingFooter() {
 
 function WaveTop() {
   return <svg
-    className="wave-top"
+    className="wave-top flex-shrink-0"
     viewBox="0 0 1439 147"
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
