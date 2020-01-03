@@ -13,7 +13,7 @@ export function Landing(props: PageProps) {
       <LandingHeader/>
       <LandingIntro/>
       <LandingGuide/>
-      <div className="flex flex-grow bg-white"/>
+      <div className="flex-grow bg-white"/>
       <LandingFooter/>
     </div>
   );
