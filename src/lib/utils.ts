@@ -20,7 +20,7 @@ export function isClient(): boolean {
   return typeof window === 'object';
 }
 
-export function parseViaQuery(viaQuery: string): [string | undefined, string | undefined] {
+export function parseViaQuery(viaQuery: Nullable<string>): [string | undefined, string | undefined] {
   if (!viaQuery) {
     return [undefined, undefined];
   }
