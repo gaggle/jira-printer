@@ -13,6 +13,19 @@ export function LandingFooter() {
               freepik.com
             </a>
           </li>
+          <li className="block md:inline-block mr-2">
+            <p>
+              Logo by
+              <a
+                className="font-bold"
+                href="https://www.flaticon.com/authors/smashicons"
+                title="Smashicons"
+              >
+                Smashicons
+              </a> {' '}
+              from <a className="font-bold" href="https://www.flaticon.com/" title="Flaticon">flaticon.com</a>
+            </p>
+          </li>
         </ul>
       </div>
     </footer>
