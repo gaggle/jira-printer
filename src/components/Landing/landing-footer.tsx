@@ -34,7 +34,7 @@ export function LandingFooter() {
 
 function WaveTop() {
   return <svg
-    className="wave-top"
+    className="wave-top flex-shrink-0"
     viewBox="0 0 1439 147"
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
