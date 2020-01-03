@@ -38,9 +38,10 @@ function ConnectCard() {
           Connect to your server
         </div>
         <p className="text-gray-700 text-base">
-          Connect by going through the Connection login screen,
-          all it needs is the Jira server to connect to, your username,
-          and a token that's easy to create by following the on-screen guide.
+          Click "Connect" to establish a connection to the Jira server,
+          all you need to fill out is which Jira server to connect to,
+          your username,
+          and an access token that's easy to create by following the on-screen guide.
         </p>
       </div>
     </div>
@@ -72,9 +73,9 @@ function PrintCard() {
           Print!
         </div>
         <p className="text-gray-800 text-base">
-          Just print. Only your issues will be printed,
-          any user-interface widgets are removed automatically.
-          For the best-looking prints, print using a color-printer and include background graphics.
+          Just print. Only your issues gets printed,
+          all other user-interface widgets are automatically hidden.
+          For best-looking prints, print using a color-printer and include background graphics.
         </p>
       </div>
     </div>
