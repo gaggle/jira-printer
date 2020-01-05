@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { parse } from 'url';
 
 import { If } from '../If';
-import { TextField } from '../TextField';
-import style from './index.module.css';
+import { TextField } from '../TextField/index';
 
 export interface FormProps {
   onSubmit: (formInputs: FormState) => void;
@@ -48,21 +47,18 @@ export function LoginForm(props: FormProps) {
   const formIsValid = !!formState.token && !!formState.url && !!formState.user;
   const actionStr = props.action ? `Connect and ${props.action}` : 'Connect';
 
-  return <form
-    className={style['login-form']}
-    onSubmit={handleClick}
-  >
+  return <form className="w-full mx-auto max-w-4xl" onSubmit={handleClick}>
     <If condition={!!props.errors && props.errors.length > 0}>
       <div>Errors: {props.errors && props.errors.join(', ')}</div>
     </If>
     <TextField
       id="url"
       title="Jira URL"
-      description="The URL for the Jira server you want to connect to"
-      placeholder="https://jira.example.com"
+      description="The URL for the Jira server you want to connect to."
+      placeholder="https://example.atlassian.net"
       value={formState.url}
       onChange={setUrl}
-      required={false}
+      required={true}
       disabled={props.lockedState && !!props.lockedState.url}
     />
     <TextField
@@ -71,17 +67,15 @@ export function LoginForm(props: FormProps) {
       description={<>
         Email you use to log onto
         {' '}
-        <If condition={!formState.url}>
-          your Jira server
+        <If condition={!!formState.url} fallback="your Jira server">
+          <a className="font-bold hover:underline" href={formState.url!}>{formState.url}</a>
         </If>
-        <If condition={!!formState.url}>
-          <a href={formState.url!}>{formState.url}</a>
-        </If>
+        .
       </>}
       placeholder="john.doe@example.com"
       value={formState.user}
       onChange={setUser}
-      required={false}
+      required={true}
       disabled={props.lockedState && !!props.lockedState.user}
     />
     <TextField
@@ -89,26 +83,22 @@ export function LoginForm(props: FormProps) {
       title="Token"
       description={<>
         24 character token associated with user.
-        Generate one at <a href="https://id.atlassian.com/manage/api-tokens">
+        Generate one at <a className="font-bold hover:underline" href="https://id.atlassian.com/manage/api-tokens">
         https://id.atlassian.com/manage/api-tokens
-      </a>
+      </a>.
       </>}
       placeholder="12ABCdE3fGhij4klMnOpQ5rs"
       value={formState.token}
       onChange={setToken}
-      required={false}
+      required={true}
       disabled={props.lockedState && !!props.lockedState.token}
     />
-    {/*
-    <CheckboxField
-      id="save"
-      title="Save?"
-      description="Whether to save settings as a cookie in your browser for next visit"
-      checked={formState.save}
-      onChange={setSave}
-    />
-    */}
-    <button type="submit" className={formIsValid ? '' : style.invalid}>{actionStr}</button>
+    <button
+      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+      type="submit"
+    >
+      {actionStr}
+    </button>
   </form>;
 }
 

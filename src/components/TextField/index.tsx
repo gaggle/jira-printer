@@ -1,4 +1,6 @@
+import classnames from 'classnames';
 import React from 'react';
+import { If } from '../If/index';
 
 interface TextFieldProps {
   id: string;
@@ -13,19 +15,24 @@ interface TextFieldProps {
 }
 
 export function TextField(props: TextFieldProps) {
-  return <div className={props.className}>
-    <label htmlFor={props.id}>
-      <span>{props.title}</span>
-      <small>{props.description}</small>
+  return <div className="mb-4">
+    <label className="block font-extrabold mb-2" htmlFor={props.id}>
+      {props.title}
+      <If condition={!!props.required}>
+        <span className="text-red-700">*</span>
+      </If>
     </label>
     <input
+      className={classnames('text-input focus:outline-none focus:shadow-outline', { 'bg-gray-500': props.disabled })}
       id={props.id}
       disabled={props.disabled}
       onChange={props.onChange}
       placeholder={props.placeholder}
-      required={props.required}
       value={props.value || ''}
+      required={props.required}
       type="text"
     />
+    <p className="text-gray-700"><span className="italic">{props.description}</span>
+    </p>
   </div>;
 }

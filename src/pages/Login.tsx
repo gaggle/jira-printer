@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import { Header } from '../components/Header/index';
+import { Header, LoginHeader } from '../components/Header/index';
 import { FormState, LoginForm } from '../components/LoginForm';
 import { useStoreDispatch } from '../hooks/use-store';
 import { PostJson } from '../lib/fetching';
@@ -33,30 +33,32 @@ export function Login(props: PageProps) {
   return authed
     ? <Redirect to={to}/>
     : <>
-      <Header/>
-      <LoginForm
-        action={
-          (viaRouting && viaRouting !== Routing.issues)
-            ? `go to ${viaRouting.name}`
-            : query
-            ? 'search'
-            : undefined
-        }
-        errors={error ? [error] : undefined}
-        onSubmit={async (formState: FormState) => {
-          setError(null);
-          const response = await PostJson('/api/login', formState);
-          if (response.status === 200) {
-            dispatch({ type: 'connected' });
-            setAuthed(true);
-          } else {
-            console.debug(`Form submit failed (${response.status})`);
-            dispatch({ type: 'disconnected' });
-            const content = await response.text();
-            setError(content);
+      <LoginHeader/>
+      <div className="mt-8">
+        <LoginForm
+          action={
+            (viaRouting && viaRouting !== Routing.issues)
+              ? `go to ${viaRouting.name}`
+              : query
+              ? 'search'
+              : undefined
           }
-        }}
-        lockedState={lockedFormData}
-      />
+          errors={error ? [error] : undefined}
+          onSubmit={async (formState: FormState) => {
+            setError(null);
+            const response = await PostJson('/api/login', formState);
+            if (response.status === 200) {
+              dispatch({ type: 'connected' });
+              setAuthed(true);
+            } else {
+              console.debug(`Form submit failed (${response.status})`);
+              dispatch({ type: 'disconnected' });
+              const content = await response.text();
+              setError(content);
+            }
+          }}
+          lockedState={lockedFormData}
+        />
+      </div>
     </>;
 }
