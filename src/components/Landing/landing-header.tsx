@@ -28,11 +28,11 @@ export function LandingHeader() {
           href="#"
         >
           <img className="h-8 mr-2 mb-1 lg:mb-2 inline" src={PrinterLogo} alt="Jira Printer logo"/>
-          Jira Printer
+          <span className="hidden sm:inline">Jira Printer</span>
         </a>
       </div>
 
-      <div className="float-right z-20 mb-2 mt-1 lg:mt-3">
+      <div className="float-right z-20 mb-2 mt-1 lg:mt-3 mr-2">
         <Link
           to={Routing.login.path}
           className="hover:underline bg-white text-gray-800 font-bold rounded-full py-2 px-8 shadow opacity-75"
