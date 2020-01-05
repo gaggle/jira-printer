@@ -34,7 +34,7 @@ function ConnectCard() {
     <div className="rounded shadow-lg">
       <div className="px-6 py-4">
         <div className="text-3xl text-gray-800 font-bold leading-none mb-3">
-          Connect to your server
+          Connect to your Jira server
         </div>
         <p className="text-gray-700 text-base">
           Click "Connect" to establish a connection to the Jira server,
