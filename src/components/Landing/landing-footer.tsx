@@ -3,7 +3,7 @@ import React from 'react';
 
 export function LandingFooter() {
   return <>
-    <WaveTop/>
+    <WaveBottom/>
     <footer className="gradient">
       <div className="container mx-auto px-8 text-xs md:text-sm">
         <ul className="list-reset opacity-50">
@@ -32,9 +32,9 @@ export function LandingFooter() {
   </>;
 }
 
-function WaveTop() {
+function WaveBottom() {
   return <svg
-    className="wave-top flex-shrink-0"
+    className="wave-bottom flex-shrink-0"
     viewBox="0 0 1439 147"
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
