@@ -27,7 +27,6 @@ export function LandingGuide() {
       </ol>
     </div>
   </section>;
-
 }
 
 function ConnectCard() {
